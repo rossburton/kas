@@ -258,7 +258,7 @@ class WriteBBConfig(Command):
                 fds.write('DISTRO ??= "{}"\n'.format(
                     ctx.config.get_distro()))
                 fds.write('BBMULTICONFIG ?= "{}"\n'.format(
-                    ctx.config.get_multiconfig()))
+                    " ".join(ctx.config.get_multiconfig())))
 
         _write_bblayers_conf(ctx)
         _write_local_conf(ctx)
