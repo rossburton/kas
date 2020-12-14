@@ -24,6 +24,7 @@
 """
 
 import os
+from collections import OrderedDict
 from .repos import Repo
 from .includehandler import IncludeHandler, IncludeException
 
@@ -87,7 +88,7 @@ class Config:
         """
         repo_config_dict = self._config.get('repos', {})
         repo_defaults = self._config.get('defaults', {}).get('repos', {})
-        repo_dict = {}
+        repo_dict = OrderedDict()
         repo_fallback_path = os.path.dirname(self.filenames[0])
         for repo in repo_config_dict:
             repo_config_dict[repo] = repo_config_dict[repo] or {}
@@ -128,7 +129,7 @@ class Config:
             Returns the local.conf header
         """
         header = ''
-        for key, value in sorted(self._config.get(header_name, {}).items()):
+        for key, value in self._config.get(header_name, {}).items():
             header += '# {}\n{}\n'.format(key, value)
         return header
 

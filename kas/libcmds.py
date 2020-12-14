@@ -245,8 +245,8 @@ class WriteBBConfig(Command):
                 fds.write(ctx.config.get_bblayers_conf_header())
                 fds.write('BBLAYERS ?= " \\\n    ')
                 fds.write(' \\\n    '.join(
-                    sorted(layer for repo in ctx.config.get_repos()
-                           for layer in repo.layers)))
+                    layer for repo in ctx.config.get_repos()
+                    for layer in repo.layers))
                 fds.write('"\n')
 
         def _write_local_conf(ctx):
