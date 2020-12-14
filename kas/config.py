@@ -98,17 +98,20 @@ class Config:
 
         return repo_dict
 
-    def get_bitbake_targets(self):
+    def get_bitbake_targets(self, from_env=True):
         """
             Returns a list of bitbake targets
         """
         if self._override_target:
             return self._override_target
-        environ_targets = [i
-                           for i in os.environ.get('KAS_TARGET', '').split()
-                           if i]
-        if environ_targets:
-            return environ_targets
+
+        if from_env:
+            environ_targets = [i
+                            for i in os.environ.get('KAS_TARGET', '').split()
+                            if i]
+            if environ_targets:
+                return environ_targets
+
         target = self._config.get('target', 'core-image-minimal')
         if isinstance(target, str):
             return [target]
@@ -144,19 +147,25 @@ class Config:
         """
         return self._get_conf_header('local_conf_header')
 
-    def get_machine(self):
+    def get_machine(self, from_env=True):
         """
             Returns the machine
         """
-        return os.environ.get('KAS_MACHINE',
-                              self._config.get('machine', 'qemux86-64'))
+        if from_env:
+            return os.environ.get('KAS_MACHINE',
+                                self._config.get('machine', 'qemux86-64'))
+        else:
+            return self._config.get('machine', 'qemux86-64')
 
-    def get_distro(self):
+    def get_distro(self, from_env=True):
         """
             Returns the distro
         """
-        return os.environ.get('KAS_DISTRO',
-                              self._config.get('distro', 'poky'))
+        if from_env:
+            return os.environ.get('KAS_DISTRO',
+                                self._config.get('distro', 'poky'))
+        else:
+            return self._config.get('distro', 'poky')
 
     def get_environment(self):
         """
