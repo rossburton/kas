@@ -43,12 +43,14 @@ def load():
     from . import checkout
     from . import shell
     from . import multibuild
+    from . import run
 
     register_plugins(build)
     register_plugins(checkout)
     register_plugins(for_all_repos)
     register_plugins(shell)
     register_plugins(multibuild)
+    register_plugins(run)
 
 
 def get(name):
