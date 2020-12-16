@@ -53,7 +53,12 @@ class RunCommand(Command):
             script.file.close()
             os.chmod(script.name, 0o700)
 
-            ret = subprocess.call(script.name, env=ctx.environ, cwd=ctx.build_dir)
+            env = ctx.environ.copy()
+            for repo in ctx.config.get_repos():
+                shellname = repo.name.upper().replace("-", "_")
+                env[f"REPO_PATH_{shellname}"] = repo.path
+
+            ret = subprocess.call(script.name, env=env, cwd=ctx.build_dir)
             if ret != 0:
                 logging.error('Script returned non-zero exit status %d', ret)
                 sys.exit(ret)
